@@ -3,9 +3,6 @@ var infoEl = document.getElementById('info');
 
 var fiveDayEl = document.getElementById('five-day-forecast');
 
-//Making a counter to keep track of what's in local storage
-
-
 // Adding the a listener to the buttn
 $('#search').on("click", "button", function(){
   // seleceting the value inside the text 
@@ -17,6 +14,7 @@ $('#search').on("click", "button", function(){
   .addClass('searched-city')
   .text(userInput)
 
+  addButton(userInput);
   saveCities(userInput);
 
   // making an apiCall formant with user input
@@ -32,12 +30,7 @@ $('#search').on("click", "button", function(){
       return;
 
     } else { 
-      var test = response;
-      console.log(response);
-      $('#saved-cities').append(newCity);
 
-      console.log(response.coord.lat);
-      
       apiCallOne = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + response.coord.lat
        + '&lon=' + response.coord.lon + '&units=imperial' + '&appid=ba69d1ea74461bab7d55a955393c7b3a';
 
@@ -46,7 +39,6 @@ $('#search').on("click", "button", function(){
         return response.json();
       })
       .then(function(response){
-        console.log(response);
 
         displayInfo(response);
       })
@@ -72,13 +64,11 @@ var displayInfo = function(response) {
   } else if (response.current.uvi < 11) {
     infoEl.innerHTML += '<p style="color:red;"> UV Index: ' + response.current.uvi + '</p>';
   } 
-  
 
   fiveDayEl.innerHTML = '<h2> 5-Day forecast: </h2>'
 
   for (var i = 0; i < 5; i++) {
     
-
     fiveDayEl.innerHTML += '<h4>' + new Date() + '</h4>';
     fiveDayEl.innerHTML += '<img src=http://openweathermap.org/img/wn/' + response.daily[i].weather[0].icon + '@2x.png>'
     fiveDayEl.innerHTML += '<p> Temp: ' + response.daily[i].temp.day + '°F</p>';
@@ -90,11 +80,17 @@ var displayInfo = function(response) {
 
 var saveCities = function(userInput) {
 
+  console.log(localStorage.getItem(String(0)));
+  console.log(userInput);
+
   for (var i = 0; i < 100; i++) {
-  if (!localStorage.getItem(String(i))) {
-    localStorage.setItem(String(i), userInput);
+  if (localStorage.getItem(String(i)) === userInput)  {
+   console.log('skipped');
+   break;
+  } else if (!localStorage.getItem(String(i))) {
+     localStorage.setItem(String(i), userInput);
     break;
-  } 
+  }
 
  }
 }
@@ -103,16 +99,32 @@ var displaySavedCities = function() {
 
   for (var i = 0; i < 100; i++) {
   
-  if (!localStorage.getItem(String(i))) {
-    break;
-  } else {
-  var newCity = $('<button>')
-  .attr('type', 'submit')
-  .addClass('searched-city')
-  .text(localStorage.getItem(String(i)));
+    if (!localStorage.getItem(String(i))) {
+      break;
+    } else {
+    var newCity = $('<button>')
+    .attr('type', 'submit')
+    .addClass('searched-city')
+    .text(localStorage.getItem(String(i)));
 
-  $('#saved-cities').append(newCity);
+    $('#saved-cities').append(newCity);
+    }
   }
+}
+
+var addButton = function(userInput) {
+  for (var i = 0; i < 100; i++) {
+    if (userInput === localStorage.getItem(String(i))) {
+      break;
+    } else {
+      var newCity = $('<button>')
+      .attr('type', 'submit')
+      .addClass('searched-city')
+      .text(userInput);
+    
+      $('#saved-cities').append(newCity);
+      break;
+    }
   }
 }
 
