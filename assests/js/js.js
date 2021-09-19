@@ -1,6 +1,8 @@
 // Selceting the info
 var infoEl = document.getElementById('info');
 
+var fiveDayEl = document.getElementById('five-day-forecast');
+
 // Adding the a listener to the buttn
 $('#search').on("click", "button", function(){
   // seleceting the value inside the text 
@@ -36,8 +38,6 @@ $('#search').on("click", "button", function(){
       apiCallOne = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + response.coord.lat
        + '&lon=' + response.coord.lon + '&units=imperial' + '&appid=ba69d1ea74461bab7d55a955393c7b3a';
 
-      console.log(apiCallOne);
-
       fetch(apiCallOne)
       .then(function(response){
         return response.json();
@@ -46,7 +46,6 @@ $('#search').on("click", "button", function(){
         console.log(response);
 
         displayInfo(response);
-
       })
       }
   })
@@ -55,10 +54,25 @@ $('#search').on("click", "button", function(){
 
 // Function which will display info 
 var displayInfo = function(response) {
+  infoEl.innerHTML = '<h2> Information goes here </h2>'
 
   infoEl.innerHTML += '<p>' + response.current.temp + '</p>';
   infoEl.innerHTML += '<p>' + response.current.humidity + '</p>';
   infoEl.innerHTML += '<p>' + response.current.wind_speed + '</p>';
   infoEl.innerHTML += '<p>' + response.current.uvi + '</p>';
 
+  infoEl.innerHTML += '<img src=http://openweathermap.org/img/wn/10d@2x.png>'
+
+  fiveDayEl.innerHTML = '<h2> 5-Day forecast: </h2>'
+
+  for (var i = 0; i < 5; i++) {
+    
+
+    fiveDayEl.innerHTML += '<h4>' + new Date() + '</h4>';
+    fiveDayEl.innerHTML += '<img src=http://openweathermap.org/img/wn/' + response.daily[i].weather[0].icon + '@2x.png>'
+    fiveDayEl.innerHTML += '<p>' + response.daily[i].temp.day + '</p>';
+    fiveDayEl.innerHTML += '<p>' + response.daily[i].wind_speed + '</p>';
+    fiveDayEl.innerHTML += '<p>' + response.daily[i].humidity + '</p>';
+
+  }
 }
