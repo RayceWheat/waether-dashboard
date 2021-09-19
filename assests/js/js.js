@@ -4,7 +4,7 @@ var infoEl = document.getElementById('info');
 var fiveDayEl = document.getElementById('five-day-forecast');
 
 // Adding the a listener to the buttn
-$('#search').on("click", "button", function(){
+$('#search').on('click', 'button', function(){
   // seleceting the value inside the text 
   var  userInput = document.querySelector('#city-search').value;
 
@@ -46,6 +46,48 @@ $('#search').on("click", "button", function(){
   })
 })
 
+// Adding the a listener to the buttn
+$('#saved-cities').on("click", "button", function(){
+  console.log('test');
+  // seleceting the value inside the text 
+  var  userInput = this.textContent;
+
+  // Selecting the value inside the text and creating a new element 
+  var newCity = $('<button>')
+  .attr('type', 'submit')
+  .addClass('searched-city')
+  .text(userInput)
+
+  saveCities(userInput);
+
+  // making an apiCall formant with user input
+  var apiCall = 'http://api.openweathermap.org/data/2.5/weather?q=' + userInput + '&units=imperial' + '&appid=ba69d1ea74461bab7d55a955393c7b3a';
+
+  fetch(apiCall)
+.then(function(response){
+    return response.json();
+})
+.then(function(response){
+    if (response.cod === '404') {
+      window.alert("Please enter a valid city");
+      return;
+
+    } else { 
+
+      apiCallOne = 'https://api.openweathermap.org/data/2.5/onecall?lat=' + response.coord.lat
+       + '&lon=' + response.coord.lon + '&units=imperial' + '&appid=ba69d1ea74461bab7d55a955393c7b3a';
+
+      fetch(apiCallOne)
+      .then(function(response){
+        return response.json();
+      })
+      .then(function(response){
+
+        displayInfo(response);
+      })
+      }
+  })
+})
 
 // Function which will display info 
 var displayInfo = function(response) {
