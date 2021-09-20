@@ -91,6 +91,13 @@ $('#saved-cities').on("click", "button", function(){
 
 // Function which will display info 
 var displayInfo = function(response) {
+  
+  var date = new Date();
+  var daten = date.getDate();
+
+  var extremeSuffering = new Date();
+  var month = extremeSuffering.getMonth();
+
   infoEl.innerHTML = '<h2> Information goes here </h2>'
 
   infoEl.innerHTML += '<p> Temp: ' + response.current.temp + ' °F</p>';
@@ -111,7 +118,7 @@ var displayInfo = function(response) {
 
   for (var i = 0; i < 5; i++) {
     
-    fiveDayEl.innerHTML += '<h4>' + new Date() + '</h4>';
+    fiveDayEl.innerHTML += '<h4>' + (month + 1) + '/' + (daten + i) + '</h4>';
     fiveDayEl.innerHTML += '<img src=http://openweathermap.org/img/wn/' + response.daily[i].weather[0].icon + '@2x.png>'
     fiveDayEl.innerHTML += '<p> Temp: ' + response.daily[i].temp.day + '°F</p>';
     fiveDayEl.innerHTML += '<p> Wind: ' + response.daily[i].wind_speed + 'MPH</p>';
