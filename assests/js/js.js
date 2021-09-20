@@ -48,7 +48,6 @@ $('#search').on('click', 'button', function(){
 
 // Adding the a listener to the buttn
 $('#saved-cities').on("click", "button", function(){
-  console.log('test');
   // seleceting the value inside the text 
   var  userInput = this.textContent;
 
@@ -91,7 +90,7 @@ $('#saved-cities').on("click", "button", function(){
 
 // Function which will display info 
 var displayInfo = function(response) {
-  
+
   var date = new Date();
   var daten = date.getDate();
 
@@ -116,7 +115,7 @@ var displayInfo = function(response) {
 
   fiveDayEl.innerHTML = '<h2> 5-Day forecast: </h2>'
 
-  for (var i = 0; i < 5; i++) {
+  for (var i = 1; i < 6; i++) {
     
     fiveDayEl.innerHTML += '<h4>' + (month + 1) + '/' + (daten + i) + '</h4>';
     fiveDayEl.innerHTML += '<img src=http://openweathermap.org/img/wn/' + response.daily[i].weather[0].icon + '@2x.png>'
@@ -128,9 +127,6 @@ var displayInfo = function(response) {
 }
 
 var saveCities = function(userInput) {
-
-  console.log(localStorage.getItem(String(0)));
-  console.log(userInput);
 
   for (var i = 0; i < 100; i++) {
   if (localStorage.getItem(String(i)) === userInput)  {
