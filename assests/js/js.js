@@ -18,7 +18,7 @@ $('#search').on('click', 'button', function(){
   saveCities(userInput);
 
   // making an apiCall formant with user input
-  var apiCall = 'http://api.openweathermap.org/data/2.5/weather?q=' + userInput + '&units=imperial' + '&appid=ba69d1ea74461bab7d55a955393c7b3a';
+  var apiCall = 'https://api.openweathermap.org/data/2.5/weather?q=' + userInput + '&units=imperial' + '&appid=ba69d1ea74461bab7d55a955393c7b3a';
 
   fetch(apiCall)
 .then(function(response){
@@ -60,7 +60,7 @@ $('#saved-cities').on("click", "button", function(){
   saveCities(userInput);
 
   // making an apiCall formant with user input
-  var apiCall = 'http://api.openweathermap.org/data/2.5/weather?q=' + userInput + '&units=imperial' + '&appid=ba69d1ea74461bab7d55a955393c7b3a';
+  var apiCall = 'https://api.openweathermap.org/data/2.5/weather?q=' + userInput + '&units=imperial' + '&appid=ba69d1ea74461bab7d55a955393c7b3a';
 
   fetch(apiCall)
 .then(function(response){
